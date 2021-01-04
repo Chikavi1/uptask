@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "proyecto uptask con node y mvc",
   "main": "index.js",
-  
   "scripts": {
     "dev": "nodemon ./index.js",
     "start": "concurrently \"npm run dev \" \"  npm run watch \" ",
@@ -13,8 +12,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
-    "express-validator": "^6.9.0",
+    "express-session": "^1.17.1",
+    "express-validator": "^5.3.0",
     "mysql2": "^2.2.5",
     "pug": "^3.0.0",
     "sequelize": "^6.3.5",
