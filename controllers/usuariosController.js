@@ -1,4 +1,6 @@
 const Usuarios = require('../models/Usuarios');
+const crypto = require('crypto');
+
 
 exports.formCrearCuenta = (req,res) => {
     res.render('crearCuenta',{
@@ -41,3 +43,4 @@ exports.crearCuenta = async (req,res) => {
      //crear usuario
     // res.send('Enviaste el form');
 }
+

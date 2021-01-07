@@ -51,10 +51,12 @@ module.exports = function(){
     
     router.get('/cerrar-sesion',authController.cerrarSesion);
 
+    router.get('/reestablecer',authController.formRestablecerPassword);
+    router.post('/reestablecer',authController.enviarToken);
+    router.get('/reestablecer/:token',authController.validarToken);
+    router.post('/reestablecer/:token',authController.actualizarPassword);
+
     router.get('/auth/google',authController.googleauth);
-    
-
-
     router.get('/auth/google/callback',authController.googleCallback);
 
 
