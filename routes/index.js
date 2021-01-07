@@ -49,7 +49,14 @@ module.exports = function(){
     router.get('/iniciar-sesion',usuariosController.formIniciarSesion);
     router.post('/iniciar-sesion',authController.autenticarUsuario);
     
-    router.get('/cerrar-sesion',authController.cerrarSesion)
+    router.get('/cerrar-sesion',authController.cerrarSesion);
+
+    router.get('/auth/google',authController.googleauth);
+    
+
+
+    router.get('/auth/google/callback',authController.googleCallback);
+
 
     return router; 
 }

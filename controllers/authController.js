@@ -28,3 +28,17 @@ exports.cerrarSesion = (req,res) => {
         res.redirect('/iniciar-sesion');
     })
 }
+
+
+exports.googleauth = passport.authenticate('google',{
+    scope: ['profile', 'email'],
+   
+});
+
+
+exports.googleCallback = passport.authenticate('google', {
+
+    successRedirect: '/',
+    failureRedirect: '/iniciar-sesion',
+    failureFlash: true
+});
