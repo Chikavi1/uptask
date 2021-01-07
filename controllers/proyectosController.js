@@ -2,7 +2,11 @@ const Proyectos = require('../models/Proyectos');
 const Tareas    = require('../models/Tareas');
 
 exports.proyectosHome  = async(req,res) => {
-    const proyectos = await Proyectos.findAll();
+
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({where: { usuarioId }});
+
+    console.log(res.locals.usuario);
 
     res.render('index',{
         nombrePagina: 'Proyectos',
@@ -11,7 +15,8 @@ exports.proyectosHome  = async(req,res) => {
 }
 
 exports.formularioProyecto  = async (req,res) => {
-    const proyectos = await Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({where: { usuarioId }});
     res.render('nuevo-proyecto',{
         nombrePagina: 'Nuevo Proyecto',
         proyectos
@@ -19,10 +24,13 @@ exports.formularioProyecto  = async (req,res) => {
 }
 
 exports.proyectoPorUrl = async (req,res,next) => {
-    const proyectosPromise =  Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectosPromise = await Proyectos.findAll({where: { usuarioId }});
+
     const proyectoPromise =  Proyectos.findOne({
         where:{
-            url: req.params.url
+            url: req.params.url,
+            usuarioId
         }
     });
 
@@ -54,7 +62,8 @@ exports.proyectoPorUrl = async (req,res,next) => {
 }
 
 exports.nuevoProyecto = async (req,res) => {
-    const proyectos = await Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({where: { usuarioId }});
 
     const { nombre } = req.body;
     let errores = [];
@@ -69,9 +78,10 @@ exports.nuevoProyecto = async (req,res) => {
             proyectos
         })
     }else{
-        //insertarq
         // const url = slug(nombre).toLowerCase()
-        Proyectos.create({nombre});
+
+        const usuarioId = res.locals.usuario.id;
+        Proyectos.create({ nombre,usuarioId });
        res.redirect('/');
     }
 
@@ -79,7 +89,8 @@ exports.nuevoProyecto = async (req,res) => {
 
 
 exports.formularioEditar  = async (req,res) => {
-    const proyectosPromise =  Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectosPromise = await Proyectos.findAll({where: { usuarioId }});
     const proyectoPromise =  Proyectos.findOne({
         where:{
             id: req.params.id
@@ -97,8 +108,9 @@ exports.formularioEditar  = async (req,res) => {
 }
 
 exports.actualizarProyecto = async (req,res) => {
-    const proyectos = await Proyectos.findAll();
-
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({where: { usuarioId }});
+    
     const { nombre } = req.body;
     let errores = [];
     if(!nombre){
