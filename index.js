@@ -7,7 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('./config/passport');
-require('dotenv').config({path: 'variables.env'});
+require('dotenv').config({path: '../variables.env'});
 
 //helpers con algunas funciones
 const helpers = require('./helpers');
