@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const Usuarios = require('../models/Usuarios');
+const enviarEmail = require('../handlers/email');
+
 
 exports.autenticarUsuario = passport.authenticate('local',{
 
@@ -42,7 +44,6 @@ exports.googleauth = passport.authenticate('google',{
    
 });
 
-
 exports.googleCallback = passport.authenticate('google', {
 
     successRedirect: '/',
@@ -77,7 +78,18 @@ exports.enviarToken = async (req,res) => {
    await usuario.save();
    
    const resetUrl = `http://${req.headers.host}/reestablecer/${usuario.token}`;
-   console.log(resetUrl);
+//    console.log(resetUrl);
+
+   //envia el correo con el token
+   await enviarEmail.enviar({
+       usuario,
+       subject: 'Password reset',
+       resetUrl,
+       archivo: 'reestablecer-password'
+   });
+
+   req.flash('correcto','Se envió un mensaje a tu correo verificalo!');
+   res.redirect('/iniciar-sesion');
 
 }
 
@@ -97,7 +109,6 @@ res.render('resetPassword',{
 })
 
 
-console.log(usuario);
 
 }
 
@@ -123,5 +134,29 @@ exports.actualizarPassword = async (req,res) => {
     usuario.expiracion = null;
     await usuario.save();
     req.flash('correcto','Tu password se ha modificado correctamente');
+    res.redirect('/iniciar-sesion');
+}
+
+
+exports.confirmarCuenta  = async (req,res) => {
+    const usuario = await Usuarios.findOne({
+        where:{
+            email: req.params.correo
+        }
+    });
+
+    console.log(usuario);
+
+
+    // si no existe el usuario
+
+    if(!usuario){
+        req.flash('error','No valido');
+        res.redirect('/crear-cuenta');
+    }
+
+    usuario.activo = 1;
+    await usuario.save();
+    req.flash('correcto','Cuenta verificada correctamente.');
     res.redirect('/iniciar-sesion');
 }
