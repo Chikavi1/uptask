@@ -3,10 +3,10 @@ const Sequelize = require('sequelize');
 require('dotenv').config({path: '../variables.env'});
 
 
-const db = new Sequelize(process.env.BD_NOMBRE, process.env.BD_USER, process.env.BD_PASS, {
-  host: process.env.DB_HOST,
+const db = new Sequelize('heroku_96b9f4b8d29fc04', 'b01bb578e7cea2', 'c78a3d61', {
+  host: 'us-cdbr-east-02.cleardb.com',
   dialect: 'mysql',
-  port: process.env.BD_PORT,
+  port: 3306,
   operatorsAliases: false,
   define: {
       timestamps: false
