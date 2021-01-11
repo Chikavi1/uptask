@@ -39,7 +39,7 @@ passport.use(
     new GoogleStrategy({
     clientID: '166224822320-p5175agfpr9h38lkt7df1h51j7rpt4re.apps.googleusercontent.com',
     clientSecret: 'rvzKG7T8Iu37O5wMv9A-cz8Z',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
+    callbackURL: 'https://radiant-garden-43120.herokuapp.com//auth/google/callback'
   },
   async function(accessToken, refreshToken,profile, done) {
     // console.log(profile.id);
